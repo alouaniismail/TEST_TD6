@@ -61,7 +61,7 @@ class TestPassagerStresse extends TestPassagerAbstrait {
     faux2=(Transport)faux;
     p.monterDans(faux2);
 
-    assert "monteeDemanderDebout" == getLastLog(faux) : "debout";
+    assert 0 == faux.logs.size() : "il lui faut une place assise.";
 
     faux = new FauxVehicule(FauxVehicule.PLEIN);
     faux2=(Transport)faux;
@@ -77,10 +77,15 @@ class TestPassagerStresse extends TestPassagerAbstrait {
    * - numero d'arret = à la destination
    */
   // TODO Comment tester le changement de position à l'arret
-  public void testInteractionArret() {
+
+    public void testInteractionArret() {
     PassagerStresse p = new PassagerStresse("yyy", 7);
 
     FauxVehicule faux = new FauxVehicule(FauxVehicule.VIDE);
+
+    p.changerEnDebout();
+    p.nouvelArret(faux, 1);
+    assert "arretDemanderAssis" == getLastLog(faux) : "+5 arrets (assis)";
 
     p.changerEnAssis();
     p.nouvelArret(faux, 4);

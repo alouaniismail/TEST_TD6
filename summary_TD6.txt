@@ -10,4 +10,160 @@ TD6: estUN-aUN(important!!!!)
 On y est: TD6 avec la bonne structure de travail desormais.(voir resumeAll.txt.).
 >
 >>
-
+1.Quel lien choisir?
+1.1. Avec un lien <est-Un>:
+Pour réaliser ces classes concretes, on pourrait comprendre les differentes combinaisons(20 ici) et d'utiliser l'heritage depuis PassagerAbstrait et de redefinir les bons methodes definissant le caractere en question. 20 classes concretes. Chaque couple herite de PassagerAbstrait en implémentant dans abstract/ par exemple les deux methodes abstraites manquantes. Solution insatisfaisante car bcp d'ecritures multiples et si on veut modifier un caracetre on doit le modifier dans toutes les classes concretes qui l'utilisent ce qui est trop pour une seule simple modif. au sein du code. 
+(on a donné une ébauche du diagramme de classe)
+lien est -Un:
+fleche entrante vers l'entitee depuis laquelle on herite de l'autre cote les couples de caracetres avec un ~au debut pour signifier la signification de lien est-Un dans le cas d'heritage.
+1.2. Avec un lien <a-Un>:
+Nous allons combiner les deux.
+*Pour les classes caracteres a la montee, nous conserverons le lien est-Un : MonteeFatigue/Tete/Repons/Sportif heritent de la classe PassagerAbstrait et vont redefinir la méthode: choixPlaceMontee.
+*Pour les classes caracteres a l'arret, nous utiliserons un lien a-un entre PassagerAbstrait et les classes: ArretCalme/Nerveux/Prudent/Agoraphobe/Poli. L'objectif est de pouvoir substituer les instances de ces 5 classes dans le code de la classe abstraite PassagerAbstrait. 
+ >Fournissons un diagramme de classe par version:
+ ======================================================
+ ABSTRACT:
+ ======================================================
+ dans src:
+ PassagerAbstrait est une classe abstraite qui donne le choix pour les 2 abstract void choixPlaceMontee() et choixPlaceArret(). Les PassagerStandard/Indecis/Stresse correspondent a 2 objets le premier via un lien a-un et le deuxieme unlien est un integre.
+ sans cela, on a:
+ Passager une classe abstraite puis PassagerAbstrait qui extends Passager et implemente Usager qui contient la méthode utilisee par le client (monteeDans) puis 2 abstract void pour les 2 methodes qui vont donner par lien est-UN passagerIndecis et l'autre.
+ INTERFACE:
+ On a PassagerAbstrait avec les portees non precedentes implementant Passager(qui devient une interface) et Usager rendant abstrait les 2 methodes. Comme ca pas d'import via une instanciation naturelle de FabriqueTec.
+ là, toutes les montees vont heriter de PassagerAbstrait pour implémenter choixPlaceMontee.(on conserve le lien est-Un ici)
+ et dans PassagerAbstrait, on aura un attribut qui indiquera quel comportement a l'arret on voudrais. 
+ Dans PassagerAbstrait, on aura un attribut comportementALArret qui indiquera quel comportement choisir et une fleche sortante des 4 montees vers cette derniere. ChoixplaceArret est ancree dans l'attribut donc on aura plus abstract void choixPlaceArret() mais l'attribut va comporter une implémentation des différents caracteres via le constructeur. Le lien a-Un connecte ces deuxliens estUN.
+ ==============
+ INTERFACE
+ deja traite.
+ ----------------------
+ 2.Developpement:
+ .construire la hiearchie de classes pour les differents codes de la méthode choixPlaceArret();
+ .remanier le code de la classe abstraite et de ses classes derivees pour prendre en compte le lien a-Un.
+ ==================
+ ======================
+ =============================================
+ 2.1.La hiearchie pour la méthode choixPlaceArret():
+ choixPlaceArret avant avait comme args:
+ 	Vehicule v, int arret
+ Là, elle stipule une correspondance via un lien a-Un donc pas de relation type/sous-type cad. que choixPlaceArret avec un lien est-Un a comme arguments pas de Passager car elle va l'implémenter plus tard, elle contient la definition propre de ses attributs, mais un lien a-Un non donc doit avoir Passager p en plus dans le prototype d'où le prototype suivant:
+ choixPlaceArret(Passager p, Vehicule v, int distanceDestination);
+ Voilà.
+ -----------------------------------------------------------------
+ Traitons
+ le cas de abstract/::
+ Suivant le diagramme UML, on dit que:
+ PassagerStandard va hériter de MonteeRepos qui va hériter de PassagerAbstrait.
+ Car si MonteeRepos herite de PassagerAbstrait, il va contenir la mise en place Arret donc PassagerStandard va hériter tout simplement de MonteeRepos. 
+ Reprenons:
+ Les 3 montees: sportif, fatigue, repos (qui correspondent a indecis, stresse, standard) vont hériter de PassagerAstrait. Donc, ils contiennent la mise en place Arret, le PassagerStandard va faire quoi par exemple ? il va hériter de MonteeRepos.
+ D'où le diagramme 1/2:
+ Passager3 vers 3comportements vers PassagerAbstrait.
+ =>Reprenons depuis le debut:
+ Lien est-Un avec les montees:
+ =>Les 3 montees vont heriter de PassagerAbstrait et implementer choixPlaceMontee en abstract void. Ce sont des classes, leurs constructeurs definissent la meme chose avec un pointeur vers le comportement(lien est-Un). PassagerStandard va heriter de celle-ci bien faite et son constructeur va faire super avec le bon comportement a l'arret.
+ =>Donc, les 3 arrets qui construisent le lien a-Un avec PassagerAbstrait vont implémenter un interface ArretComportement pour avoir un type dans la liste des attributs de PassagerStandard qui va être non implémentable en final et private pour la portée dans le packetage et a l'exterieur..(methode abstraite) Donc les 3 arrets implémentent l'interface en un type ComportementInterface (lien est-Un) et se projettent dans PassagerAbstrait pour en finir ou bien le contraire c'est passagerAbstrait qui va se projetter sur comportement interface...
+ ========================++Solution:::
+ Implémentons tous ses trucs pour savoir dont on parle.
+ Pour les arrets:
+ Il faut un lien a-Un d'ou l'ajout d'un attribut qui va parametrer (partage d'instances) et donc implicitement contenir choixPlaceArret avec ajout de Passager p en parametres.
+ D'où les choix suivants:
+ ...
+ Il faut un type qui va parametrer la descente d'ou l'interface ArretComportement contenant le choixPlaceArret avec Passager p en plus dans la liste des args.
+ =>5 sous classes différentes régissant le comportement à la descente.
+ ArretNerveux par exemple va implementer ArretComportement PUIS:
+ on doit pouvoir avec PassagerStandard qui va hériter de Montee?? permettre de faire un constructeur en super specifiant le 3ieme argument comme Arret??. Il faut une méthode statique dans Arret?? qui va retourner le type du comportement qui va etre de type new Arret?? de valeur Arret?? de portée: private avec le mot-clef: final static. 
+ =>Implémentons les 5 comportements a l'arret:
+ 5 arrets a implementer.
+ L'interface ArretComportement va contenir le choixPlaceArret (autre place) qui va etre regie par les differentes implementations de ce dernier:
+ agoraphobe par exemple:
+ a l'arret, sort si existe plus de palces assises ou debout.
+ Cette classe va etre en class (via public interface), doit contenir une méthode statique permettant de coder le type du comportement. Soit récupérer en lien a-Un l'instance celle-ci pour utiliser ultèrieurement tranquillement la choxiPlaceArret() dans les differentes classes sous-jacentes.
+ =>Il faut une variable de type ArretAgoraphobe dans la liste des attributs et une méthode static permettant de récupérer celle-ci en mode final et static aussi(montées et descentes des utilsiations en terme1 d'static(s).)
+ RESUME:
+ en terme d'arrets:
+ il faut un attribut avec constructeur agissement dessus.
+ =>Spécifiant via PassagerIndecis qui va hériter de MontéeFatigue le sous-type d'interface via un getter en final static dans les classes de base.(&& le constructeur en private ne FAIT RIEN)
+ Conclusion:
+ Interface arretcomportement et 3 normaux classes implementant cet interface specifiant le comportement via choixPlaceArret (Passager p en plus dans args de choixPlaceArret) et un getter permettant de récupérer en final static le mode du comportement soit un attribut en private static final avec le constructeur en private et la méthode public static Arret?? renvoyant celle-ci.
+ Les montées maintenant:
+ en PassagerAbstrait, on aurait:
+ final private ArretComportement comme ajout d'attribut typé.
+ +constructeur qui en tient compte.
+ et dans nouvelArret on va faire :
+ comportement.choixPlaceArret(this,v,destination-numeroArret);
+ et enlever choixPlaceArret depuis: abstract void...
+ Implémentons maintenant les montées qui vont hériter de PassagerAbstrait.
+ Les montees;(RAPPELS);héritent de PassagerAbstrait et conduisent a l'implementation (extends..) de choixPlaceMontee.
+ Puis PassagerStandard comme on a dit au debut va hériter de MonteeRepos qui hérite de PassagerAbstrait avec lien a-Un avec les sorties=>PassagerStandard va hériter de MonteeRepos et via cela spécifier la nature du comportement souhaité à la descente.
+ RESUME:
+ (tout sauf les 2 derniers tests unitaires de la partie2.)
+ LIEN EST-UN:*************************************
+ implémenter les couples de comportements revient a faire un héritage depuis PassagerAbstrait puis d'implémenter les 2 fonctions codant ces comportement a l'arret et a la descente
+ =>trop de reecritures
+ =>=>probleme lors d'une modif. trop de reecritures..
+ 20 classes concretes a implémenter...
+ LIEN A-UN:**************************************************
+ Les montées ont un lien est-UN avec passagerAbstrait donc les montees vont extends PassagerAbstarit implémenter choixPlaceMontee et ce sont des classes, le constructeur va faire quoi ? 
+ PassagerIndecis, prenons-le par exemple, il va hériter de qui?
+ PassagerAbstrait non mais MonteeSportif oui car elle hérite de PassagerAbstrait donc en connait particulièrement le caractère à la descente.
+ et donc ce dernier va faire quoi dans son constructeur ?
+ normal avec un super exprimant le bon caractere avec la extends "montee?" qu'on veut.
+ En resume, c'est ca le but.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

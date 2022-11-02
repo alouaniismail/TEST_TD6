@@ -1,7 +1,5 @@
 package tec;
 
-//cette classe abstraite a un lien <estUN> avec la classe abstraite
-//passager.
 
 abstract public class PassagerAbstrait extends Passager implements Usager {
 
@@ -9,10 +7,13 @@ abstract public class PassagerAbstrait extends Passager implements Usager {
     protected int destination;
     protected Position maPosition;
 
-    public PassagerAbstrait(String nom, int destination) {
+    final private ArretComportement comportement;
+    
+    public PassagerAbstrait(String nom, int destination, ArretComportement comportement) {
         this.nom = nom;
         this.destination = destination;
         this.maPosition = Position.dehors();
+	this.comportement=comportement;
     }
 
     String nom() {
@@ -51,7 +52,7 @@ abstract public class PassagerAbstrait extends Passager implements Usager {
     void nouvelArret(Vehicule v, int numeroArret) {
         if (numeroArret == destination)
             v.arretDemanderSortie(this);
-	choixPlaceArret(v,numeroArret);
+	comportement.choixPlaceArret(this,v,destination-numeroArret);
     }
 
     public String toString() {
@@ -59,5 +60,4 @@ abstract public class PassagerAbstrait extends Passager implements Usager {
     }
 
     abstract void choixPlaceMontee(Vehicule v);
-    abstract void choixPlaceArret(Vehicule v, int arret);
 }
