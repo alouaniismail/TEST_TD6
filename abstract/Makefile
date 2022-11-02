@@ -23,6 +23,8 @@ tester: tester_1 tester_2
 	java -ea -cp build/ tec.TestPassagerStandard
 	java -ea -cp build/ tec.TestPassagerIndecis
 	java -ea -cp build/ tec.TestPassagerStresse
+	java -ea -cp build/ tec.TestMonteeFatigue
+	java -ea -cp build/ tec.TestArretPrudent
 	rm -rf src/*.java~ && rm -rf tst/*.java~
 
 

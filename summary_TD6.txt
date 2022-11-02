@@ -110,6 +110,45 @@ Nous allons combiner les deux.
  et donc ce dernier va faire quoi dans son constructeur ?
  normal avec un super exprimant le bon caractere avec la extends "montee?" qu'on veut.
  En resume, c'est ca le but.
+Ecrivons les test unitaires pour en finir avec la partie src/ ainsi que tst/ de abstract (car il faut encore reproduire tout cela au niveau de interface/):
+=>
+Dans TestMonteeFatigue:
+ca va tester le choixPlaceMontee qui dit place assise ou rien.
+=>3 etats de bus possibles:
+PLEIN/ASSIS/DEBOUT. 
+public void testAssis/testPlein/testDebout.
+par exemple dans testAssis:
+on initialise un faux Vehicule ayant des places assises via:
+FauxVehicule faux=new FauxVehicule(FauxVehicule.ASSIS);
+puis il nous faut un passager dans MonteeFatigue on a un constructeur on fait ceci:
+MonteeFatigue passager=new MonteeFatigue("passager",5,ArretNerveux.obtenirInstance())
+puis passager.choixPlaceMontee(faux).
+Seul dans le cas ou faux est via un status assis que ca va donner quelque chose:
+faux.logs.get(faux.logs.size()-1).equals("arretDemanderAssis"):"monteee places assises";
+On teste choixPlaceMontee via MonteeFatigue donc il nous faut:
+un fauxVehicule
+un passager qui illustre la monteeFatigue, vu l'heritage des passagers vis-a-vis des montees, on instancie via: MonteeFatigue passager=new MonteeFatigue("passager",5,ArretPrudent.obtenirInstance());
+puis on fait le assert sur apres:
+passager.choixPlaceMontee(faux)
+SUIVANT LES 3 CAS de bus possibles.
+Passons a TestArretPrudent:
+Ici, on tester choixPlaceArret via son obtention via:
+Arret?? forcément...
+POUR ARRETPRUDENT,
+on fait:
+ArretPrudent arret=ArretPrudent.obtenirInstance();
+arret.choixPlaceArret(fauxV,fauxP,'destination-numeroArret');
+=>si le 3ieme argument est égal à:
+*10
+(on s'en fiche de son etat maix vu que ca depasse 10, il doit etre assis, initialisation avec debout dans un status de fauxV VIDE puis test apres: arret.choixPlaceArret(fauxV,fauxP,10) : arretDemanderAssis)
+<=>public void testLoin().
+*5
+quand la distance est >=5 et il est debout, il reste debout (devient assis si <=3).
+*3
+ il est debout et la distance a la destination est 3 
+ ....
+ On a bien corrige via notre propre implementation, tous les tests passent bien..///
+ ===========================================interface & part3.//!!!:::>>>>>>>!::
  
  
  
