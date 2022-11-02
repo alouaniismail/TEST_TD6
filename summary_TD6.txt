@@ -149,6 +149,9 @@ quand la distance est >=5 et il est debout, il reste debout (devient assis si <=
  ....
  On a bien corrige via notre propre implementation, tous les tests passent bien..///
  ===========================================interface & part3.//!!!:::>>>>>>>!::
+ rappel:
+ 
+ provenance: ttr depuis le dossier personnel.
  
  
  
