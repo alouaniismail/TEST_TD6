@@ -1,0 +1,13 @@
+Resume jusqu'à là:
+(tous les tds)::
+TD0: presentation-existant
+TD1: approcheObjet-Jeuge-Position
+TD2: Autobus-PassagerStandard
+TD3: integration-rassemblement
+TD4: masque-dInformation
+TD5: nouveaux-caracteres
+TD6: estUN-aUN(important!!!!)
+On y est: TD6 avec la bonne structure de travail desormais.(voir resumeAll.txt.).
+>
+>>
+
