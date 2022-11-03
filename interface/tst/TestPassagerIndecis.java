@@ -67,6 +67,7 @@ class TestPassagerIndecis extends TestPassagerAbstrait {
     assert 0 == faux.logs.size() : "pas de place";
   }
 
+
   /*
    * Interaction a un arret
    * Cinq cas

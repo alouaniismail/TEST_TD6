@@ -1,17 +1,21 @@
 package tec;
 
-abstract class PassagerAbstrait implements Passager,Usager {
 
-    protected String nom;
-    protected int destination;
-    protected Position maPosition;
+abstract public class PassagerAbstrait implements Passager,Usager {
 
-    public PassagerAbstrait(String nom, int destination) {
+    private String nom;
+    private int destination;
+    private Position maPosition;
+
+    final private ArretComportement comportement;
+    
+    public PassagerAbstrait(String nom, int destination, ArretComportement comportement) {
         this.nom = nom;
         this.destination = destination;
         this.maPosition = Position.dehors();
+	this.comportement=comportement;
     }
-    
+
     public String nom() {
         return nom;
     }
@@ -48,13 +52,12 @@ abstract class PassagerAbstrait implements Passager,Usager {
     public void nouvelArret(Vehicule v, int numeroArret) {
         if (numeroArret == destination)
             v.arretDemanderSortie(this);
-	choixPlaceArret(v,numeroArret);
+	comportement.choixPlaceArret(this,v,destination-numeroArret);
     }
 
     public String toString() {
         return nom + " " + maPosition;
     }
 
-    abstract public void choixPlaceMontee(Vehicule v);
-    abstract public void choixPlaceArret(Vehicule v, int arret);
+    abstract void choixPlaceMontee(Vehicule v);
 }

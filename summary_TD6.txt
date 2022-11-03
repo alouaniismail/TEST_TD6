@@ -152,60 +152,19 @@ quand la distance est >=5 et il est debout, il reste debout (devient assis si <=
  rappel:
  
  provenance: ttr depuis le dossier personnel.
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-  
- 
- 
- 
- 
- 
-  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+ ->Passons A interface:
+ Interface c'est tout simplement:
+ rendre Passager et Vehicule des interfaces au lieu des classes abstraites, conserver les portées, n'inclure que Usager et Transport pour le client (polymorphisme) et faire une classe instanciable(constructeur private) et non-héritable (public FINAL class) qui va permettre d'instancier tout cela.(on rend ces classes internes au packetage tec.);;;;
+ et c'est fait ajuster les portees changer abstract public void class non extends mais implements en 2 => en 2 sur les faux2(fauxP/fauxV).
+ Ca marche
+ +Amelioration du Makefile.
+ Tout est fait.//
+ SECTION3.:
+ 1/Heritage multiple:
+ Plus de problemes car on va creer directement les combinaisons avec 2 extends. 
+ C'est pas comme faire un fichier intermediaire (heritage1) puis faire un autre heritage(reecriture du code) et puis avoir la combinaison.
+ Arret?? ne definissent aucun attribut car il s'agit d'objets constants.
+ (private final static ArretPrudent PRUDENT=new ArretPrudent(); avec final on assure a ++.)
+ VOILA.
+ LES TESTS A REVOIR.
+FIN_TD56/6.///////
